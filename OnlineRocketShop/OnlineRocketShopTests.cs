@@ -43,7 +43,8 @@ namespace OnlineRocketShop
         }
 
         [Test]
-        public void NewAccountCreated_When_OrderPlacedByNewUser([Values("falcon-9")] string rocketName)
+        [TestCase("proton-rocket")]
+        public void NewAccountCreated_When_OrderPlacedByNewUser(string rocketName)
         {
             _mainPage.AddItemToCart(rocketName);
             _cartPage.ProceedToCheckout();
@@ -67,7 +68,8 @@ namespace OnlineRocketShop
         }
 
         [Test]
-        public void BillingInfoPrefilled_When_ProceedingToCheckoutWithExistingAccount([Values("ivaylo.dimg@gmail.com")] string userEmail, [Values("Qwerty12345678987654321!")] string password, [Values("proton-rocket")] string rocketName, [Values("Ivaylo")] string userFirstName, [Values("Dimitrov")] string userLastName, [Values("ATP")] string userCompany)
+        [TestCase("ivaylo.dimg@gmail.com", "Qwerty12345678987654321!", "proton-rocket", "Ivaylo", "Dimitrov", "ATP")]
+        public void BillingInfoPrefilled_When_ProceedingToCheckoutWithExistingAccount(string userEmail, string password, string rocketName, string userFirstName, string userLastName, string userCompany)
         {
             _myAccountPage.LoginWithExistingAccount(userEmail, password);
             _myAccountPage.GoToHomePage();
@@ -79,7 +81,8 @@ namespace OnlineRocketShop
         }
 
         [Test]
-        public void OrdersShownInMyAccount_When_PurchasingItem_And_ComparingOrders([Values("proton-rocket")] string rocketName)
+        [TestCase("proton-rocket")]
+        public void OrdersShownInMyAccount_When_PurchasingItem_And_ComparingOrders(string rocketName)
         {
             _mainPage.AddItemToCart(rocketName);
             _cartPage.ProceedToCheckout();
@@ -108,7 +111,8 @@ namespace OnlineRocketShop
         }
 
         [Test]
-        public void CouponUsed_When_ApplyingHappyBirthdayCoupon([Values("falcon-9")] string rocketName, [Values("happybirthday")] string couponName)
+        [TestCase("falcon-9", "happybirthday")]
+        public void CouponUsed_When_ApplyingHappyBirthdayCoupon(string rocketName, string couponName)
         {
             _mainPage.AddItemToCart(rocketName);
             _cartPage.AddCoupon(couponName);
@@ -117,7 +121,8 @@ namespace OnlineRocketShop
         }
 
         [Test]
-        public void QuantityIncreasedToThree_When_AddingItemToCart_And_IncreasingQuantity([Values("falcon-9")] string rocketName)
+        [TestCase("falcon-9")]
+        public void QuantityIncreasedToThree_When_AddingItemToCart_And_IncreasingQuantity(string rocketName)
         {
             _mainPage.AddItemToCart(rocketName);
             _cartPage.IncreaseQuantity(3);
