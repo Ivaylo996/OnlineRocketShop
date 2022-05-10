@@ -5,22 +5,29 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-
 namespace OnlineRocketShop.Pages.OrdersPage
 {
     public partial class OrdersPage : WebPage
     {
+        private string path;
+        public List<string> actualOrdersList = new();
+        public List<string> expectedOrdersList = new();
+        public int ordersCounter;
+
         public OrdersPage(IWebDriver _driver) : base(_driver)
         {
         }
 
-        protected override string Url => throw new NotImplementedException();
-        public string path;
-        public List<string> actualOrdersList = new();
-        public List<string> expectedOrdersList = new();
-        public int ordersCounter; 
+        protected override string Url => "https://demos.bellatrix.solutions/my-account/orders/";
+        public string Path
+        {
+            get
+            {
+                return path;
+            }
+        }
 
-        public void AddOrderNumberToList(string firstName)
+        public void AddOrderNumberToList()
         {
             int numOfIterations = 0;
 
@@ -30,28 +37,20 @@ namespace OnlineRocketShop.Pages.OrdersPage
             {
                 if (numOfIterations > 0)
                 {
-                    try
-                    {
-                        ScrollToElement(NextButton);
-                        NextButton.Click();
-                    }
-                    catch
-                    {
-                        throw new Exception("No More Pages");
-                    }
+                    ScrollToElement(NextButton);
+                    NextButton.Click();
                 }
 
                 numOfIterations = Driver.FindElements(By.XPath("//tbody//tr")).Count;
 
                 for (int i = 1; i <= numOfIterations; i++)
                 {
-                    string str = OrdersMyAccountLink(i).Text;
                     actualOrdersList.Add(OrdersMyAccountLink(i).Text);
                 }
-                
+
                 try
                 {
-                    bool checkIfDisplayed = Driver.FindElement(By.XPath("//a[contains(@class,'woocommerce-Button--next button')]")).Displayed;
+                    bool checkIfDisplayed = NextButton.Displayed;
                 }
                 catch
                 {
@@ -59,22 +58,25 @@ namespace OnlineRocketShop.Pages.OrdersPage
                 }
             }
             while (isNextButtonDisplayed);
+        }
 
+        public void CompareListAndListFromFIle(string firstName)
+        {
             ReadFileToList(firstName);
             CompareLists();
         }
 
         public void ReadFileToList(string firstName)
         {
-            string path = $@"C:\Users\ivayl\source\repos\OnlineRocketShop\OnlineRocketShop\bin\Debug\net6.0\orders{firstName}.txt";
+            string path = $@"orders{firstName}.txt";
 
             expectedOrdersList.AddRange(File.ReadAllText(path).Trim().Split(Environment.NewLine).ToList());
         }
 
         public void AddOrderNumberToFile(string firstName)
         {
-            path = $@"C:\Users\ivayl\source\repos\OnlineRocketShop\OnlineRocketShop\bin\Debug\net6.0\orders{firstName}.txt";
-            string orderNum = orderNumber.Text;
+            path = $@"orders{firstName}.txt";
+            string orderNum = OrderNumber.Text;
             WriteTextToFile(path, orderNum);
         }
 
@@ -97,7 +99,7 @@ namespace OnlineRocketShop.Pages.OrdersPage
             }
         }
 
-        public int ParseOrdersQuantityLabelToString()
+        private int ParseOrdersQuantityLabelToString()
         {
             return Int32.Parse(Regex.Replace(ProductQuantityOrdersLabel.Text, @"[^\d]+", "").Trim());
         }

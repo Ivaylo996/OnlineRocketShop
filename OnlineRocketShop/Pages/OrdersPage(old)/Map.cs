@@ -11,6 +11,6 @@ namespace OnlineRocketShop.Pages.OrdersPage
 
         public IWebElement NextButton => WaitAndFindElement(By.XPath("//a[contains(@class,'woocommerce-Button--next button')]"));
         public IWebElement ProductQuantityOrdersLabel => WaitAndFindElement(By.XPath("//strong[@class='product-quantity']"));
-        public IWebElement orderNumber => WaitAndFindElement(By.XPath("//li[contains(@class,'woocommerce-order-overview__order order')]//strong"));
+        public IWebElement OrderNumber => WaitAndFindElement(By.XPath("//li[contains(@class,'woocommerce-order-overview__order order')]//strong"));
     }
 }

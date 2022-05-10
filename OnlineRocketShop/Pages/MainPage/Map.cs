@@ -6,12 +6,12 @@ namespace OnlineRocketShop.Pages.MainPage
     {
         public IWebElement AddRocketToCartByNameButton(string rocketName)
         {
-            return WaitAndFindElement(By.XPath($"//a[@href='http://demos.bellatrix.solutions/product/{rocketName}/']//following-sibling::a"));
+            return WaitAndFindElement(By.XPath($"//a[contains(@href, '{rocketName}/')]//following-sibling::a"));
         }
 
         public IWebElement ViewCartByRocketNameButton(string rocketName)
         {
-            return WaitAndFindElement(By.XPath($"//a[@href='http://demos.bellatrix.solutions/product/{rocketName}/']//following-sibling::a[@title='View cart']"));
+            return WaitAndFindElement(By.XPath($"//a[contains(@href, '{rocketName}/')]//following-sibling::a[@title='View cart']"));
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using System;
+using System.Collections.Generic;
 
 namespace OnlineRocketShop.Pages
 {
@@ -18,6 +20,7 @@ namespace OnlineRocketShop.Pages
         public IWebDriver Driver { get; set; }
         public WebDriverWait WebDriverWait { get; set; }
         protected abstract string Url { get; }
+        public string OrderNumberLabel { get; set; }
 
         public void GoTo()
         {
@@ -29,14 +32,37 @@ namespace OnlineRocketShop.Pages
         {
         }
 
-        public void ScrollToElement(IWebElement iWebElement)
+        public void HoverOverElement(IWebElement elementToBeHovered)
         {
-            ((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true);", iWebElement);
+            Actions action = new Actions(Driver);
+            action.MoveToElement(elementToBeHovered).Perform();
+        }
+
+        public void WaitForElementToBeClickable(IWebElement elementToClick)
+        {
+            WebDriverWait.Until(ExpectedConditions.ElementToBeClickable(elementToClick));
+        }
+
+        public void WaitForElementToBeVisible(By by)
+        {
+            WebDriverWait.Until(ExpectedConditions.ElementIsVisible(by));
+        }
+
+        public void ScrollToElement(IWebElement elementToScrollTo)
+        {
+            ((IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView(true);", elementToScrollTo);
         }
 
         protected IWebElement WaitAndFindElement(By by)
         {
             return WebDriverWait.Until(ExpectedConditions.ElementExists(by));
+        }
+
+        public void WaitForAjax()
+        {
+            var js = (IJavaScriptExecutor)Driver;
+
+            WebDriverWait.Until(wd => js.ExecuteScript("return jQuery.active").ToString() == "0");
         }
     }
 }

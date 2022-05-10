@@ -9,9 +9,9 @@ namespace OnlineRocketShop.Pages.OrdersPage
             Assert.AreEqual(ordersCounter, actualOrdersList.Count);
         }
 
-        public void AssertionQuantityIncreasedInOrdersPage_When_IncreasesQuantityByThree()
+        public void AssertionQuantityIncreasedInOrdersPage(int expectedQuantityCount)
         {
-            Assert.AreEqual(3, ParseOrdersQuantityLabelToString());
+            Assert.AreEqual(expectedQuantityCount, ParseOrdersQuantityLabelToString());
         }
     }
 }

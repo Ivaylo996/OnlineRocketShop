@@ -4,12 +4,12 @@ namespace OnlineRocketShop.Pages.CheckoutPage
 {
     public partial class CheckoutPage
     {
-        public void AssertionCheckOutLabelDisplayed_When_ProceedingWithOrder()
+        public void AssertionCheckOutLabelDisplayed()
         {
-            Assert.AreEqual("Checkout", checkoutPageLabel.Text.Trim());
+            Assert.AreEqual("Checkout", CheckoutPageLabel.Text.Trim());
         }
 
-        public void AssertionBillingFilled_When_LoggingInWithExistingAccount(string fName, string lName, string companyName, string email)
+        public void AssertionBillingFilled(string fName, string lName, string companyName, string email)
         {
             Assert.AreEqual(fName, FirstNameTextBox.GetAttribute("Value"));
             Assert.AreEqual(lName, LastNameTextBox.GetAttribute("Value"));
@@ -17,12 +17,7 @@ namespace OnlineRocketShop.Pages.CheckoutPage
             Assert.AreEqual(email, EmailAddressTextBox.GetAttribute("Value"));
         }
 
-        public void AssertionOrderRecieved_With_InitializeBillingInfoEmail(string expectedEmail)
-        {
-            Assert.AreEqual(expectedEmail, orderRecievedEmailLabel.Text.Trim());
-        }
-
-        public void AssertionQuantityIncreasedInCheckoutPage_With_IncreasingQuantityByThree()
+        public void AssertionQuantityIncreasedInCheckoutPage()
         {
             Assert.AreEqual(3, ParseCheckoutQuantityLabelToString());
         }

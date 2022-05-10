@@ -20,14 +20,10 @@ namespace OnlineRocketShop.Pages.MainPage
         public void AddRocketToCart(string rocketName)
         {
             AddRocketToCartByNameButton(rocketName).Click();
-            if (ViewCartByRocketNameButton(rocketName).Displayed)
-            {
-                ViewCartByRocketNameButton(rocketName).Click();
-            }
-            else
-            {
-                throw new Exception("Item not added  to cart");
-            }
+            WaitForElementToBeClickable(ViewCartByRocketNameButton(rocketName));
+
+            WaitForAjax();
+            ViewCartByRocketNameButton(rocketName).Click();
         }
     }
 }

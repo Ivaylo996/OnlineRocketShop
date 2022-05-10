@@ -8,34 +8,33 @@ namespace OnlineRocketShop.Pages.MyAccountPage
         {
         }
 
-        protected override string Url => "http://demos.bellatrix.solutions/my-account/?password-reset=true";
+        protected override string Url => "https://demos.bellatrix.solutions/my-account/";
 
-        public void LoginWithExistingAccount(string uName, string password)
+        public void LoginWithExistingAccount(string userName, string userPassword)
         {
             GoTo();
 
-            try
+            WaitForAjax();
+
+            if (UsernameTextBox.Displayed)
             {
-                Driver.FindElement(By.XPath("//input[@id='username']")).SendKeys(uName);
-                Driver.FindElement(By.XPath("//input[@id='password']")).SendKeys(password);
+                UsernameTextBox.SendKeys(userName);
+                PasswordTextBox.SendKeys(userPassword);
 
                 LoginButton.Click();
-            }
-            catch
-            {
             }
         }
 
         public void GoToHomePage()
         {
             HomeButton.Click();
+            WaitForAjax();
         }
 
         public void CheckOrders()
         {
-            ScrollToElement(OrdersButton);
-
             OrdersButton.Click();
+            WaitForAjax();
         }
     }
 }

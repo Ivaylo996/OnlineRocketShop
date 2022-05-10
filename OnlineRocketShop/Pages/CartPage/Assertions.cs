@@ -4,14 +4,14 @@ namespace OnlineRocketShop.Pages.CartPage
 {
     public partial class CartPage
     {
-        public void AssertionCouponAdded_When_UsesHappyBirthdayCoupon()
+        public void AssertionCouponAdded(string expectedBannerMessage)
         {
-            Assert.IsTrue(isLabelDisplayed);
+            Assert.AreEqual(expectedBannerMessage, AlertBanner.Text.Trim());
         }
 
-        public void AssertionQuantityIncreasedInCartPage_When_IncreasingQuantityByThree()
+        public void AssertionQuantityIncreasedInCartPage(string expectedLabel)
         {
-            Assert.AreEqual("3 items", NumberOFItemsLabel.Text.Trim());
+            Assert.AreEqual(expectedLabel, NumberOFItemsLabel.Text.Trim());
         }
     }
 }
