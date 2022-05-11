@@ -25,4 +25,3 @@ namespace OnlineRocketShop.Pages.CheckoutPage
         public IWebElement MyAccountButton => WaitAndFindElement(By.XPath("//*[contains(@class,'focus')]"));
     }
 }
-////*[contains(@class,'focus')]//*[contains(@href, 'my-account')]
