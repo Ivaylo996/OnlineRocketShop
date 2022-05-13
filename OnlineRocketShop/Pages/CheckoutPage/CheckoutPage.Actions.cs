@@ -1,11 +1,6 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System;
 using System.Text.RegularExpressions;
-using System.Threading;
+using OpenQA.Selenium;
 
 namespace OnlineRocketShop.Pages.CheckoutPage
 {
@@ -24,7 +19,7 @@ namespace OnlineRocketShop.Pages.CheckoutPage
             CompanyNameTextBox.SendKeys(billingInfo.CompanyName);
 
             SelectCountryArrowButton.Click();
-            SelectCountryTextBox.SendKeys(billingInfo.CountryName);
+            SelectCountryFromDropDown(billingInfo.CountryName);
             SelectCountryTextBox.SendKeys(Keys.Enter);
 
             StreetAddressTextBox.SendKeys(billingInfo.Address1); 
@@ -32,7 +27,7 @@ namespace OnlineRocketShop.Pages.CheckoutPage
             TownTextBox.SendKeys(billingInfo.CityName); 
 
             SelectStateArrowButton.Click();
-            SelectStateTextBox.SendKeys(billingInfo.CityName); 
+            SelectStateFromDropDown(billingInfo.CityName);
             SelectStateTextBox.SendKeys(Keys.Enter);
 
             ZipCodeTextBox.SendKeys(billingInfo.ZipCode); 

@@ -1,7 +1,7 @@
-﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Text.RegularExpressions;
+using OpenQA.Selenium;
+
 namespace OnlineRocketShop.Pages.MyOrdersPage
 {
     public partial class MyOrdersPage : WebPage
@@ -18,7 +18,7 @@ namespace OnlineRocketShop.Pages.MyOrdersPage
             return Int32.Parse(Regex.Replace(ProductQuantityOrdersLabel.Text, @"[^\d]+", "").Trim());
         }
 
-        public void GetOrderTextFromOrderRecieved(string orderText)
+        public void ExtractOrderTextFromOrderRecieved(string orderText)
         {
             expectedOrder = "#" + orderText;
         }

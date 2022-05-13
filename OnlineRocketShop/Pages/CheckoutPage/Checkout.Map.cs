@@ -23,5 +23,15 @@ namespace OnlineRocketShop.Pages.CheckoutPage
         public IWebElement SelectStateTextBox => WaitAndFindElement(By.XPath("//*[@class='select2-search__field' and contains(@aria-owns, 'state')]"));
         public IWebElement OrderLabel => WaitAndFindElement(By.XPath("//li[contains(@class, ' order')]//strong"));
         public IWebElement MyAccountButton => WaitAndFindElement(By.XPath("//*[contains(@class,'focus')]"));
+
+        public IWebElement SelectCountryFromDropDown(string countryName)
+        {
+            return WaitAndFindElement(By.XPath($"//select[@name='billing_country']/option[contains(text(), '{countryName}')]"));
+        }
+
+        public IWebElement SelectStateFromDropDown(string stateName)
+        {
+            return WaitAndFindElement(By.XPath($"//select[@name='billing_state']/option[contains(text(), '{stateName}')]"));
+        }
     }
 }

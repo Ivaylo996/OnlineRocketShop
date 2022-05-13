@@ -1,7 +1,4 @@
 ﻿using OpenQA.Selenium;
-using SeleniumExtras.WaitHelpers;
-using System;
-using System.Threading;
 
 namespace OnlineRocketShop.Pages.CartPage
 {
@@ -25,7 +22,7 @@ namespace OnlineRocketShop.Pages.CartPage
             WaitForAjax();
         }
 
-        public void AddCoupon(string couponName)
+        public void ApplyCoupon(string couponName)
         {
             CouponCodeTextBox.SendKeys(couponName);
 

@@ -1,20 +1,15 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineRocketShop.Pages.MyOrdersPage
 {
     public partial class MyOrdersPage
     {
-        public void AssertionOrdersShownInMyAccount()
+        public void AssertOrdersShownInMyAccount()
         {
             Assert.AreEqual(expectedOrder, OrderLink.Text.Trim());
         }
 
-        public void AssertionQuantityIncreasedInOrdersPage(int expectedQuantityCount)
+        public void AssertQuantityIncreasedInOrdersPage(int expectedQuantityCount)
         {
             Assert.AreEqual(expectedQuantityCount, ParseOrdersQuantityLabelToString());
         }

@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using OnlineRocketShop.Pages.CartPage;
 using OnlineRocketShop.Pages.CheckoutPage;
@@ -7,7 +8,6 @@ using OnlineRocketShop.Pages.MyOrdersPage;
 using OnlineRocketShop.Pages.OrderRecievedPage;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using System;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 using WebDriverManager.Helpers;
@@ -48,7 +48,7 @@ namespace OnlineRocketShop
         {
             _mainPage.AddItemToCart(rocketName);
             _cartPage.ProceedToCheckout();
-            _checkoutPage.AssertionCheckOutLabelDisplayed();
+            _checkoutPage.AssertCheckOutLabelDisplayed();
             _checkoutPage.FillingBillingDetails(new BillingInfo
             {
                 FirstName = "Ivaylo",
@@ -64,7 +64,7 @@ namespace OnlineRocketShop
             });
             _checkoutPage.PlaceOrder();
 
-            _orderRecievedPage.AssertionOrderRecieved("ivaylo4o.dimg@gmail.com");
+            _orderRecievedPage.AssertOrderRecieved("ivaylo4o.dimg@gmail.com");
         }
 
         [Test]
@@ -76,13 +76,13 @@ namespace OnlineRocketShop
             _mainPage.AddRocketToCart(rocketName);
             _cartPage.ProceedToCheckout();
 
-            _checkoutPage.AssertionCheckOutLabelDisplayed();
-            _checkoutPage.AssertionBillingFilled(userFirstName, userLastName, userCompany, userEmail);
+            _checkoutPage.AssertCheckOutLabelDisplayed();
+            _checkoutPage.AssertBillingFilled(userFirstName, userLastName, userCompany, userEmail);
         }
 
         [Test]
         [TestCase("proton-rocket")]
-        public void OrdersShownInMyAccount_When_PurchasingItem_And_ComparingOrders(string rocketName)
+        public void OrdersShownInMyAccount_When_PurchasingItem_And_ComparingOrderNumber(string rocketName)
         {
             _mainPage.AddItemToCart(rocketName);
             _cartPage.ProceedToCheckout();
@@ -101,23 +101,23 @@ namespace OnlineRocketShop
             });
             _checkoutPage.PlaceOrder();
 
-            _orderRecievedPage.AssertionOrderRecieved("ivso13.dimg@gmail.com");
+            _orderRecievedPage.AssertOrderRecieved("ivso13.dimg@gmail.com");
 
-            _myOrdersPage.GetOrderTextFromOrderRecieved(_orderRecievedPage.AddValueToOrderNumberLabel());
+            _myOrdersPage.ExtractOrderTextFromOrderRecieved(_orderRecievedPage.AddValueToOrderNumberLabel());
             _orderRecievedPage.GoToMyAccount();
             _myAccountPage.CheckOrders();
 
-            _myOrdersPage.AssertionOrdersShownInMyAccount();
+            _myOrdersPage.AssertOrdersShownInMyAccount();
         }
 
         [Test]
         [TestCase("falcon-9", "happybirthday")]
-        public void CouponUsed_When_ApplyingHappyBirthdayCoupon(string rocketName, string couponName)
+        public void CouponApplied_When_ApplyingHappyBirthdayCoupon(string rocketName, string couponName)
         {
             _mainPage.AddItemToCart(rocketName);
-            _cartPage.AddCoupon(couponName);
+            _cartPage.ApplyCoupon(couponName);
 
-            _cartPage.AssertionCouponAdded("Coupon code applied successfully.");
+            _cartPage.AssertCouponApplied("Coupon code applied successfully.");
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace OnlineRocketShop
         {
             _mainPage.AddItemToCart(rocketName);
             _cartPage.IncreaseQuantity(3);
-            _cartPage.AssertionQuantityIncreasedInCartPage("3 items");
+            _cartPage.AssertQuantityIncreasedInCartPage("3 items");
             _cartPage.ProceedToCheckout();
             _checkoutPage.FillingBillingDetails(new BillingInfo
             {
@@ -142,11 +142,11 @@ namespace OnlineRocketShop
                 Email = "ivaylo.dimg@gmail.com"
             });
 
-            _checkoutPage.AssertionQuantityIncreasedInCheckoutPage();
+            _checkoutPage.AssertQuantityIncreasedInCheckoutPage();
 
             _checkoutPage.PlaceOrder();
 
-            _myOrdersPage.AssertionQuantityIncreasedInOrdersPage(3);
+            _myOrdersPage.AssertQuantityIncreasedInOrdersPage(3);
         }
 
         public void Dispose()
