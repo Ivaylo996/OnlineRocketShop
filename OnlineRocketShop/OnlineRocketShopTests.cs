@@ -34,6 +34,8 @@ namespace OnlineRocketShop
             _driver.Navigating += WebDriverEventHandler.FiringDriver_Navigating;
             _driver.ElementClicking += WebDriverEventHandler.FiringDriver_Clicking;
             _driver.ElementClicked += WebDriverEventHandler.FiringDriver_Clicked;
+            _driver.ScriptExecuting += WebDriverEventHandler.FiringDriver_JavaScriptExecuting;
+            _driver.ScriptExecuted += WebDriverEventHandler.FiringDriver_JavaScriptExecuted;
 
             _mainPage = new MainPage(_driver);
             _cartPage = new CartPage(_driver);

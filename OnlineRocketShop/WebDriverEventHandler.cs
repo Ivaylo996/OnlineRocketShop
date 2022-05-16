@@ -36,6 +36,16 @@ namespace OnlineRocketShop
             PerformanceTimingService.AddPagePerformanceData();
         }
 
+        public static void FiringDriver_JavaScriptExecuting(object sender, WebDriverScriptEventArgs e)
+        {
+            Console.WriteLine("JavaScript executing");
+        }
+
+        public static void FiringDriver_JavaScriptExecuted(object sender, WebDriverScriptEventArgs e)
+        {
+            Console.WriteLine("JavaScript executed");
+        }
+
         public static void FiringDriver_Clicking(object sender, WebElementEventArgs e)
         {
             Console.WriteLine("Clicking on element with text:" + e.Element.Text);
