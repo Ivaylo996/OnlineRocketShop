@@ -8,6 +8,7 @@ using OnlineRocketShop.Pages.MyOrdersPage;
 using OnlineRocketShop.Pages.OrderRecievedPage;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.Events;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 using WebDriverManager.Helpers;
@@ -16,7 +17,7 @@ namespace OnlineRocketShop
 {
     public class OnlineRocketShopTests : IDisposable
     {
-        private static IWebDriver _driver;
+        private static EventFiringWebDriver _driver;
         private static MainPage _mainPage;
         private static CartPage _cartPage;
         private static CheckoutPage _checkoutPage;
@@ -27,7 +28,13 @@ namespace OnlineRocketShop
         public OnlineRocketShopTests()
         {
             new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
-            _driver = new ChromeDriver();
+            _driver = new EventFiringWebDriver(new ChromeDriver());
+
+            _driver.Navigated += WebDriverEventHandler.FiringDriver_Navigated;
+            _driver.Navigating += WebDriverEventHandler.FiringDriver_Navigating;
+            _driver.ElementClicking += WebDriverEventHandler.FiringDriver_Clicking;
+            _driver.ElementClicked += WebDriverEventHandler.FiringDriver_Clicked;
+
             _mainPage = new MainPage(_driver);
             _cartPage = new CartPage(_driver);
             _checkoutPage = new CheckoutPage(_driver);
@@ -40,6 +47,12 @@ namespace OnlineRocketShop
         public void Setup()
         {
             _driver.Manage().Window.Maximize();
+        }
+
+        [TearDown]
+        public void TestCleanup()
+        {
+            WebDriverEventHandler.PerformanceTimingService.GenerateReport();
         }
 
         [Test]
@@ -60,11 +73,11 @@ namespace OnlineRocketShop
                 CityName = "Sofia",
                 ZipCode = "213123",
                 PhoneNumber = "088888888",
-                Email = "ivaylo4o.dimg@gmail.com"
+                Email = "ivaylo420o.dimg@gmail.com"
             });
             _checkoutPage.PlaceOrder();
 
-            _orderRecievedPage.AssertOrderRecieved("ivaylo4o.dimg@gmail.com");
+            _orderRecievedPage.AssertOrderRecieved("ivaylo420o.dimg@gmail.com");
         }
 
         [Test]
@@ -97,11 +110,11 @@ namespace OnlineRocketShop
                 CityName = "Sofia",
                 ZipCode = "213123",
                 PhoneNumber = "088888888",
-                Email = "ivso13.dimg@gmail.com"
+                Email = "ivso1321.dimg@gmail.com"
             });
             _checkoutPage.PlaceOrder();
 
-            _orderRecievedPage.AssertOrderRecieved("ivso13.dimg@gmail.com");
+            _orderRecievedPage.AssertOrderRecieved("ivso1321.dimg@gmail.com");
 
             _myOrdersPage.ExtractOrderTextFromOrderRecieved(_orderRecievedPage.AddValueToOrderNumberLabel());
             _orderRecievedPage.GoToMyAccount();
