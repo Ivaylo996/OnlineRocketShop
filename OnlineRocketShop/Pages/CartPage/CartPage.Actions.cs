@@ -10,31 +10,29 @@ namespace OnlineRocketShop.Pages.CartPage
 
         protected override string Url => "https://demos.bellatrix.solutions/cart/";
 
-        protected bool isLabelDisplayed;
-
-        public void ProceedToCheckout()
+        public void ProceedToCheckoutFromCartPage()
         {
-            ScrollToElement(TotalPriceLabel);
-            WaitForElementToBeClickable(ProceedToCheckoutButton);
+            ScrollToElement(CartPageTotalPriceLabel);
+            WaitForElementToBeClickable(CartPageProceedToCheckoutButton);
             WaitForAjax();
 
-            ProceedToCheckoutButton.Click();
+            CartPageProceedToCheckoutButton.Click();
             WaitForAjax();
         }
 
-        public void ApplyCoupon(string couponName)
+        public void ApplyCouponByCouponName(string couponName)
         {
-            CouponCodeTextBox.SendKeys(couponName);
+            CartPageCouponCodeTextBox.SendKeys(couponName);
 
-            ApplyCouponButton.Click();
+            CartPageApplyCouponButton.Click();
             WaitForAjax();
         }
 
-        public void IncreaseQuantity(int quantityNumber)
+        public void IncreaseProductQuantityInCartByNumber(int quantityNumber)
         {
             for (int i = 0; i < quantityNumber; i++)
             {
-                QuantityTextBox.SendKeys(Keys.ArrowUp);
+                CartPageQuantityTextBox.SendKeys(Keys.ArrowUp);
             }
 
             UpdateCartButton.Click();

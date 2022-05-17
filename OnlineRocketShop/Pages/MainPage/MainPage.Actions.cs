@@ -10,7 +10,7 @@ namespace OnlineRocketShop.Pages.MainPage
 
         protected override string Url => "http://demos.bellatrix.solutions/";
 
-        public void AddItemToCart(string rocketName)
+        public void AddItemToCartWithoutAccount(string rocketName)
         {
             GoTo();
             AddRocketToCart(rocketName);
@@ -18,11 +18,11 @@ namespace OnlineRocketShop.Pages.MainPage
 
         public void AddRocketToCart(string rocketName)
         {
-            AddRocketToCartByNameButton(rocketName).Click();
-            WaitForElementToBeClickable(ViewCartByRocketNameButton(rocketName));
+            GetAddToCartButtonByRocketName(rocketName).Click();
+            WaitForElementToBeClickable(GetViewCartButtonByRocketName(rocketName));
 
             WaitForAjax();
-            ViewCartByRocketNameButton(rocketName).Click();
+            GetViewCartButtonByRocketName(rocketName).Click();
         }
     }
 }

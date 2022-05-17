@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using OnlineRocketShop.Pages.CartPage;
 using OnlineRocketShop.Pages.CheckoutPage;
@@ -6,7 +7,6 @@ using OnlineRocketShop.Pages.MainPage;
 using OnlineRocketShop.Pages.MyAccountPage;
 using OnlineRocketShop.Pages.MyOrdersPage;
 using OnlineRocketShop.Pages.OrderRecievedPage;
-using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.Events;
 using WebDriverManager;
@@ -61,9 +61,9 @@ namespace OnlineRocketShop
         [TestCase("proton-rocket")]
         public void NewAccountCreated_When_OrderPlacedByNewUser(string rocketName)
         {
-            _mainPage.AddItemToCart(rocketName);
-            _cartPage.ProceedToCheckout();
-            _checkoutPage.AssertCheckOutLabelDisplayed();
+            _mainPage.AddItemToCartWithoutAccount(rocketName);
+            _cartPage.ProceedToCheckoutFromCartPage();
+            _checkoutPage.AssertCheckOutLabelDisplayed("Checkout");
             _checkoutPage.FillingBillingDetails(new BillingInfo
             {
                 FirstName = "Ivaylo",
@@ -86,21 +86,21 @@ namespace OnlineRocketShop
         [TestCase("ivaylo.dimg@gmail.com", "Qwerty12345678987654321!", "proton-rocket", "Ivaylo", "Dimitrov", "ATP")]
         public void BillingInfoPrefilled_When_ProceedingToCheckoutWithExistingAccount(string userEmail, string password, string rocketName, string userFirstName, string userLastName, string userCompany)
         {
-            _myAccountPage.LoginWithExistingAccount(userEmail, password);
-            _myAccountPage.GoToHomePage();
+            _myAccountPage.LoginWithExistingUsernameAndPassword(userEmail, password);
+            _myAccountPage.GoToHomePageFromMyAccountPage();
             _mainPage.AddRocketToCart(rocketName);
-            _cartPage.ProceedToCheckout();
+            _cartPage.ProceedToCheckoutFromCartPage();
 
-            _checkoutPage.AssertCheckOutLabelDisplayed();
-            _checkoutPage.AssertBillingFilled(userFirstName, userLastName, userCompany, userEmail);
+            _checkoutPage.AssertCheckOutLabelDisplayed("Checkout");
+            _checkoutPage.AssertBillingInformationPrefilledOnCheckout(userFirstName, userLastName, userCompany, userEmail);
         }
 
         [Test]
         [TestCase("proton-rocket")]
         public void OrdersShownInMyAccount_When_PurchasingItem_And_ComparingOrderNumber(string rocketName)
         {
-            _mainPage.AddItemToCart(rocketName);
-            _cartPage.ProceedToCheckout();
+            _mainPage.AddItemToCartWithoutAccount(rocketName);
+            _cartPage.ProceedToCheckoutFromCartPage();
             _checkoutPage.FillingBillingDetails(new BillingInfo
             {
                 FirstName = "Ivo",
@@ -112,25 +112,25 @@ namespace OnlineRocketShop
                 CityName = "Sofia",
                 ZipCode = "213123",
                 PhoneNumber = "088888888",
-                Email = "ivso1321.dimg@gmail.com"
+                Email = "ivso132123123123.dimg@gmail.com"
             });
             _checkoutPage.PlaceOrder();
 
-            _orderRecievedPage.AssertOrderRecieved("ivso1321.dimg@gmail.com");
+            _orderRecievedPage.AssertOrderRecieved("ivso132123123123.dimg@gmail.com");
 
-            _myOrdersPage.ExtractOrderTextFromOrderRecieved(_orderRecievedPage.AddValueToOrderNumberLabel());
-            _orderRecievedPage.GoToMyAccount();
-            _myAccountPage.CheckOrders();
-
-            _myOrdersPage.AssertOrdersShownInMyAccount();
+            var expectedOrderLabelFromOrderRecievedPage = "#" + Int32.Parse(Regex.Replace(_orderRecievedPage.OrderRecievedPageOrderLabel.Text, @"[^\d]+", "").Trim());
+            _orderRecievedPage.GoToMyAccountPage();
+            _myAccountPage.CheckOrdersInMyAccount();
+            
+            _myOrdersPage.AssertOrdersShownInMyAccount(expectedOrderLabelFromOrderRecievedPage);
         }
 
         [Test]
         [TestCase("falcon-9", "happybirthday")]
         public void CouponApplied_When_ApplyingHappyBirthdayCoupon(string rocketName, string couponName)
         {
-            _mainPage.AddItemToCart(rocketName);
-            _cartPage.ApplyCoupon(couponName);
+            _mainPage.AddItemToCartWithoutAccount(rocketName);
+            _cartPage.ApplyCouponByCouponName(couponName);
 
             _cartPage.AssertCouponApplied("Coupon code applied successfully.");
         }
@@ -139,10 +139,12 @@ namespace OnlineRocketShop
         [TestCase("falcon-9")]
         public void QuantityIncreasedToThree_When_AddingItemToCart_And_IncreasingQuantity(string rocketName)
         {
-            _mainPage.AddItemToCart(rocketName);
-            _cartPage.IncreaseQuantity(3);
+            _mainPage.AddItemToCartWithoutAccount(rocketName);
+            _cartPage.IncreaseProductQuantityInCartByNumber(3);
+
             _cartPage.AssertQuantityIncreasedInCartPage("3 items");
-            _cartPage.ProceedToCheckout();
+
+            _cartPage.ProceedToCheckoutFromCartPage();
             _checkoutPage.FillingBillingDetails(new BillingInfo
             {
                 FirstName = "Ivaylo",
@@ -157,11 +159,11 @@ namespace OnlineRocketShop
                 Email = "ivaylo.dimg@gmail.com"
             });
 
-            _checkoutPage.AssertQuantityIncreasedInCheckoutPage();
+            _checkoutPage.AssertQuantityIncreasedInCheckoutPageByNumber(3);
 
             _checkoutPage.PlaceOrder();
 
-            _myOrdersPage.AssertQuantityIncreasedInOrdersPage(3);
+            _myOrdersPage.AssertQuantityIncreasedInOrdersPageByNumber(3);
         }
 
         public void Dispose()

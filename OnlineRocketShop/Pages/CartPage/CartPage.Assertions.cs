@@ -6,12 +6,12 @@ namespace OnlineRocketShop.Pages.CartPage
     {
         public void AssertCouponApplied(string expectedBannerMessage)
         {
-            Assert.AreEqual(expectedBannerMessage, AlertBanner.Text.Trim());
+            Assert.AreEqual(expectedBannerMessage, CartPageAlertBanner.Text.Trim());
         }
 
         public void AssertQuantityIncreasedInCartPage(string expectedLabel)
         {
-            Assert.AreEqual(expectedLabel, NumberOfItemsLabel.Text.Trim());
+            Assert.AreEqual(expectedLabel, NumberOfItemsInCartLabel.Text.Trim());
         }
     }
 }

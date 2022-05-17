@@ -14,39 +14,39 @@ namespace OnlineRocketShop.Pages.CheckoutPage
 
         public void FillingBillingDetails(BillingInfo billingInfo)
         {
-            FirstNameTextBox.SendKeys(billingInfo.FirstName);
-            LastNameTextBox.SendKeys(billingInfo.LastName);
-            CompanyNameTextBox.SendKeys(billingInfo.CompanyName);
+            BillingFirstNameTextBox.SendKeys(billingInfo.FirstName);
+            BillingLastNameTextBox.SendKeys(billingInfo.LastName);
+            BillingCompanyNameTextBox.SendKeys(billingInfo.CompanyName);
 
-            SelectCountryArrowButton.Click();
-            SelectCountryFromDropDown(billingInfo.CountryName);
-            SelectCountryTextBox.SendKeys(Keys.Enter);
+            BillingCountryArrowButton.Click();
+            GetBillingCountryByCountryNameFromDropDown(billingInfo.CountryName);
+            BillingCountryTextBox.SendKeys(Keys.Enter);
 
-            StreetAddressTextBox.SendKeys(billingInfo.Address1); 
-            ApartmentNumberTextBox.SendKeys(billingInfo.Address2); 
-            TownTextBox.SendKeys(billingInfo.CityName); 
+            BillingStreetAddressTextBox.SendKeys(billingInfo.Address1); 
+            BillingApartmentNumberTextBox.SendKeys(billingInfo.Address2); 
+            BillingTownTextBox.SendKeys(billingInfo.CityName); 
 
-            SelectStateArrowButton.Click();
-            SelectStateFromDropDown(billingInfo.CityName);
-            SelectStateTextBox.SendKeys(Keys.Enter);
+            BillingStateArrowButton.Click();
+            GetBillingStateByStateNameFromDropDown(billingInfo.CityName);
+            BillingStateTextBox.SendKeys(Keys.Enter);
 
-            ZipCodeTextBox.SendKeys(billingInfo.ZipCode); 
-            PhoneNumberTextBox.SendKeys(billingInfo.PhoneNumber); 
-            EmailAddressTextBox.SendKeys(billingInfo.Email); 
+            BillingZipCodeTextBox.SendKeys(billingInfo.ZipCode); 
+            BillingPhoneNumberTextBox.SendKeys(billingInfo.PhoneNumber); 
+            BillingEmailAddressTextBox.SendKeys(billingInfo.Email); 
 
-            CreateAccountCheckBox.Click();
+            CheckoutPageCreateAccountCheckBox.Click();
             WaitForAjax();
         }
 
         public void PlaceOrder()
         {
-            PlaceOrderButton.Click();
+            CheckoutPagePlaceOrderButton.Click();
             WaitForAjax();
         }
 
-        private int ParseCheckoutQuantityLabelToString()
+        private int GetCheckoutPageQuantityLabelTextParsedToInteger()
         {
-            return Int32.Parse(Regex.Replace(ProductQuantityCheckOutLabel.Text, @"[^\d]+", "").Trim());
+            return Int32.Parse(Regex.Replace(CheckoutPageProductQuantityLabel.Text, @"[^\d]+", "").Trim());
         }
     }
 }

@@ -4,14 +4,14 @@ namespace OnlineRocketShop.Pages.MyOrdersPage
 {
     public partial class MyOrdersPage
     {
-        public void AssertOrdersShownInMyAccount()
+        public void AssertOrdersShownInMyAccount(string expectedOrderLabel)
         {
-            Assert.AreEqual(expectedOrder, OrderLink.Text.Trim());
+            Assert.AreEqual(expectedOrderLabel, MyOrdersOrderLink.Text.Trim());
         }
 
-        public void AssertQuantityIncreasedInOrdersPage(int expectedQuantityCount)
+        public void AssertQuantityIncreasedInOrdersPageByNumber(int expectedQuantityCount)
         {
-            Assert.AreEqual(expectedQuantityCount, ParseOrdersQuantityLabelToString());
+            Assert.AreEqual(expectedQuantityCount, GetMyOrdersPageQuantityLabelTextParsedToInteger());
         }
     }
 }
