@@ -10,15 +10,15 @@ namespace OnlineRocketShop.Pages.OrderRecievedPage
 
         protected override string Url => "http://demos.bellatrix.solutions/checkout/order-received/";
 
-        public void GoToMyAccount()
+        public void GoToMyAccountPage()
         {
-            MyAccountButton.Click();
+            OrderRecievedPageMyAccountButton.Click();
             WaitForAjax();
         }
 
-        public string AddValueToOrderNumberLabel()
+        public string GetOrderNumberByOrderRecievedPageOrderLabel()
         {
-            return OrderLabel.Text.Trim();
+            return OrderRecievedPageOrderLabel.Text.Trim();
         }
     }
 }

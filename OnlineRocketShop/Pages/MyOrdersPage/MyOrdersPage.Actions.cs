@@ -11,16 +11,10 @@ namespace OnlineRocketShop.Pages.MyOrdersPage
         }
 
         protected override string Url => "https://demos.bellatrix.solutions/my-account/orders/";
-        public string expectedOrder;
 
-        private int ParseOrdersQuantityLabelToString()
+        private int GetMyOrdersPageQuantityLabelTextParsedToInteger()
         {
-            return Int32.Parse(Regex.Replace(ProductQuantityOrdersLabel.Text, @"[^\d]+", "").Trim());
-        }
-
-        public void ExtractOrderTextFromOrderRecieved(string orderText)
-        {
-            expectedOrder = "#" + orderText;
+            return Int32.Parse(Regex.Replace(MyOrdersCurrentOrderProductQuantityLabel.Text, @"[^\d]+", "").Trim());
         }
     }
 }

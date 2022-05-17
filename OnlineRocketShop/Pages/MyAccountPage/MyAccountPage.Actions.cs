@@ -10,30 +10,30 @@ namespace OnlineRocketShop.Pages.MyAccountPage
 
         protected override string Url => "https://demos.bellatrix.solutions/my-account/";
 
-        public void LoginWithExistingAccount(string userName, string userPassword)
+        public void LoginWithExistingUsernameAndPassword(string userName, string userPassword)
         {
             GoTo();
 
             WaitForAjax();
 
-            if (UsernameTextBox.Displayed)
+            if (MyAccountPageUsernameTextBox.Displayed)
             {
-                UsernameTextBox.SendKeys(userName);
-                PasswordTextBox.SendKeys(userPassword);
+                MyAccountPageUsernameTextBox.SendKeys(userName);
+                MyAccountPagePasswordTextBox.SendKeys(userPassword);
 
-                LoginButton.Click();
+                MyAccountLoginButton.Click();
             }
         }
 
-        public void GoToHomePage()
+        public void GoToHomePageFromMyAccountPage()
         {
-            HomeButton.Click();
+            MyAccountHomeButton.Click();
             WaitForAjax();
         }
 
-        public void CheckOrders()
+        public void CheckOrdersInMyAccount()
         {
-            OrdersButton.Click();
+            MyAccountOrdersButton.Click();
             WaitForAjax();
         }
     }
