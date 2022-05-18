@@ -4,11 +4,19 @@ namespace OnlineRocketShop.Pages.MyAccountPage
 {
     public partial class MyAccountPage : WebPage
     {
+        private string currentSubUrl = "my-account/";
+
         public MyAccountPage(IWebDriver _driver) : base(_driver)
         {
         }
 
-        protected override string Url => "https://demos.bellatrix.solutions/my-account/";
+        protected override string Url
+        {
+            get
+            {
+                return base.Url + currentSubUrl;
+            }
+        }
 
         public void LoginWithExistingUsernameAndPassword(string userName, string userPassword)
         {

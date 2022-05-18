@@ -10,6 +10,7 @@ namespace OnlineRocketShop.Pages
     public abstract class WebPage
     {
         private const int WAIT_FOR_ELEMENT_TIMEOUT = 60;
+        private string url = "http://demos.bellatrix.solutions/";
 
         public WebPage(IWebDriver _driver)
         {
@@ -19,7 +20,17 @@ namespace OnlineRocketShop.Pages
 
         public IWebDriver Driver { get; set; }
         public WebDriverWait WebDriverWait { get; set; }
-        protected abstract string Url { get; }
+        protected virtual string Url
+        {
+            get
+            {
+                return url;
+            }
+            set
+            {
+                url = value;
+            }
+        }
         public string OrderNumberLabel { get; set; }
 
         public void GoTo()

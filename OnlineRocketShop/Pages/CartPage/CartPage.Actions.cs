@@ -4,11 +4,19 @@ namespace OnlineRocketShop.Pages.CartPage
 {
     public partial class CartPage : WebPage
     {
+        private string currentSubUrl = "cart/";
+
         public CartPage(IWebDriver _driver) : base(_driver)
         {
         }
 
-        protected override string Url => "https://demos.bellatrix.solutions/cart/";
+        protected override string Url
+        {
+            get
+            {
+                return base.Url + currentSubUrl;
+            }
+        }
 
         public void ProceedToCheckoutFromCartPage()
         {
