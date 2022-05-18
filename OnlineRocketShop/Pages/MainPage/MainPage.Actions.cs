@@ -8,8 +8,6 @@ namespace OnlineRocketShop.Pages.MainPage
         {
         }
 
-        protected override string Url => "http://demos.bellatrix.solutions/";
-
         public void AddItemToCartWithoutAccount(string rocketName)
         {
             GoTo();

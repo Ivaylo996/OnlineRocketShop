@@ -4,11 +4,19 @@ namespace OnlineRocketShop.Pages.OrderRecievedPage
 {
     public partial class OrderRecievedPage : WebPage
     {
+        private string currentSubUrl = "checkout/order-received/";
+
         public OrderRecievedPage(IWebDriver _driver) : base(_driver)
         {
         }
 
-        protected override string Url => "http://demos.bellatrix.solutions/checkout/order-received/";
+        protected override string Url
+        {
+            get
+            {
+                return base.Url + currentSubUrl;
+            }
+        }
 
         public void GoToMyAccountPage()
         {

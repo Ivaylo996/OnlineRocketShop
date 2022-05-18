@@ -75,11 +75,11 @@ namespace OnlineRocketShop
                 CityName = "Sofia",
                 ZipCode = "213123",
                 PhoneNumber = "088888888",
-                Email = "ivaylo420o.dimg@gmail.com"
+                Email = "ivaylo4201o.dimg@gmail.com"
             });
             _checkoutPage.PlaceOrder();
 
-            _orderRecievedPage.AssertOrderRecieved("ivaylo420o.dimg@gmail.com");
+            _orderRecievedPage.AssertOrderRecieved("ivaylo4201o.dimg@gmail.com");
         }
 
         [Test]
@@ -112,11 +112,11 @@ namespace OnlineRocketShop
                 CityName = "Sofia",
                 ZipCode = "213123",
                 PhoneNumber = "088888888",
-                Email = "ivso132123123123.dimg@gmail.com"
+                Email = "ivso1321231231231.dimg@gmail.com"
             });
             _checkoutPage.PlaceOrder();
 
-            _orderRecievedPage.AssertOrderRecieved("ivso132123123123.dimg@gmail.com");
+            _orderRecievedPage.AssertOrderRecieved("ivso1321231231231.dimg@gmail.com");
 
             var expectedOrderLabelFromOrderRecievedPage = "#" + Int32.Parse(Regex.Replace(_orderRecievedPage.OrderRecievedPageOrderLabel.Text, @"[^\d]+", "").Trim());
             _orderRecievedPage.GoToMyAccountPage();

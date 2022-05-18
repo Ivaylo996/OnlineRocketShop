@@ -6,11 +6,19 @@ namespace OnlineRocketShop.Pages.MyOrdersPage
 {
     public partial class MyOrdersPage : WebPage
     {
+        private string currentSubUrl = "orders/";
+
         public MyOrdersPage(IWebDriver _driver) : base(_driver)
         {
         }
 
-        protected override string Url => "https://demos.bellatrix.solutions/my-account/orders/";
+        protected override string Url
+        {
+            get
+            {
+                return base.Url + currentSubUrl;
+            }
+        }
 
         private int GetMyOrdersPageQuantityLabelTextParsedToInteger()
         {

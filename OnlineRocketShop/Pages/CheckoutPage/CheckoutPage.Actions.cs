@@ -6,11 +6,19 @@ namespace OnlineRocketShop.Pages.CheckoutPage
 {
     public partial class CheckoutPage : WebPage
     {
+        private string currentSubUrl = "checkout/";
+
         public CheckoutPage(IWebDriver _driver) : base(_driver)
         {
         }
 
-        protected override string Url => "https://demos.bellatrix.solutions/checkout/";
+        protected override string Url
+        {
+            get
+            {
+                return base.Url + currentSubUrl;
+            }
+        }
 
         public void FillingBillingDetails(BillingInfo billingInfo)
         {
