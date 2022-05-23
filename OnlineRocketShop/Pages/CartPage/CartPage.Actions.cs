@@ -4,35 +4,26 @@ namespace OnlineRocketShop.Pages.CartPage
 {
     public partial class CartPage : WebPage
     {
-        private string currentSubUrl = "cart/";
-
-        public CartPage(IWebDriver _driver) : base(_driver)
+        public CartPage(IWebDriver _driver) 
+            : base(_driver)
         {
         }
 
-        protected override string Url
-        {
-            get
-            {
-                return base.Url + currentSubUrl;
-            }
-        }
+        protected override string Url => base.Url + "cart/";
 
-        public void ProceedToCheckoutFromCartPage()
+        public void ProceedToCheckout()
         {
-            ScrollToElement(CartPageTotalPriceLabel);
-            WaitForElementToBeClickable(CartPageProceedToCheckoutButton);
+            ScrollToElement(TotalPriceLabel);
+            WaitForElementToBeClickable(ProceedToCheckoutButton);
             WaitForAjax();
-
-            CartPageProceedToCheckoutButton.Click();
+            ProceedToCheckoutButton.Click();
             WaitForAjax();
         }
 
         public void ApplyCouponByCouponName(string couponName)
         {
-            CartPageCouponCodeTextBox.SendKeys(couponName);
-
-            CartPageApplyCouponButton.Click();
+            CouponCodeTextBox.SendKeys(couponName);
+            ApplyCouponButton.Click();
             WaitForAjax();
         }
 
@@ -40,7 +31,7 @@ namespace OnlineRocketShop.Pages.CartPage
         {
             for (int i = 0; i < quantityNumber; i++)
             {
-                CartPageQuantityTextBox.SendKeys(Keys.ArrowUp);
+                QuantityTextBox.SendKeys(Keys.ArrowUp);
             }
 
             UpdateCartButton.Click();

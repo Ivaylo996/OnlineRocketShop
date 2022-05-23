@@ -4,44 +4,35 @@ namespace OnlineRocketShop.Pages.MyAccountPage
 {
     public partial class MyAccountPage : WebPage
     {
-        private string currentSubUrl = "my-account/";
-
-        public MyAccountPage(IWebDriver _driver) : base(_driver)
+        public MyAccountPage(IWebDriver _driver) 
+            : base(_driver)
         {
         }
 
-        protected override string Url
-        {
-            get
-            {
-                return base.Url + currentSubUrl;
-            }
-        }
+        protected override string Url => base.Url + "my-account/";
 
         public void LoginWithExistingUsernameAndPassword(string userName, string userPassword)
         {
             GoTo();
-
             WaitForAjax();
 
-            if (MyAccountPageUsernameTextBox.Displayed)
+            if (PageUsernameTextBox.Displayed)
             {
-                MyAccountPageUsernameTextBox.SendKeys(userName);
-                MyAccountPagePasswordTextBox.SendKeys(userPassword);
-
-                MyAccountLoginButton.Click();
+                PageUsernameTextBox.SendKeys(userName);
+                PagePasswordTextBox.SendKeys(userPassword);
+                LoginButton.Click();
             }
         }
 
-        public void GoToHomePageFromMyAccountPage()
+        public void GoToHomePage()
         {
-            MyAccountHomeButton.Click();
+            HomeButton.Click();
             WaitForAjax();
         }
 
         public void CheckOrdersInMyAccount()
         {
-            MyAccountOrdersButton.Click();
+            OrdersButton.Click();
             WaitForAjax();
         }
     }

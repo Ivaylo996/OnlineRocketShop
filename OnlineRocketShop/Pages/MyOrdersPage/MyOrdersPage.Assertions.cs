@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Text.RegularExpressions;
+using NUnit.Framework;
 
 namespace OnlineRocketShop.Pages.MyOrdersPage
 {
@@ -6,12 +8,14 @@ namespace OnlineRocketShop.Pages.MyOrdersPage
     {
         public void AssertOrdersShownInMyAccount(string expectedOrderLabel)
         {
-            Assert.AreEqual(expectedOrderLabel, MyOrdersOrderLink.Text.Trim());
+            Assert.AreEqual(expectedOrderLabel, OrderLink.Text.Trim());
         }
 
-        public void AssertQuantityIncreasedInOrdersPageByNumber(int expectedQuantityCount)
+        public void AssertQuantityUpdatedByNumber(int expectedQuantityCount)
         {
-            Assert.AreEqual(expectedQuantityCount, GetMyOrdersPageQuantityLabelTextParsedToInteger());
+            var actualQuantityCount = Int32.Parse(Regex.Replace(CurrentOrderProductQuantityLabel.Text, @"[^\d]+", "").Trim());
+
+            Assert.AreEqual(expectedQuantityCount, actualQuantityCount);
         }
     }
 }
