@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Text.RegularExpressions;
+using NUnit.Framework;
 
 namespace OnlineRocketShop.Pages.CheckoutPage
 {
@@ -6,7 +8,7 @@ namespace OnlineRocketShop.Pages.CheckoutPage
     {
         public void AssertCheckOutLabelDisplayed(string expectedCheckoutPageLabelText)
         {
-            Assert.AreEqual(expectedCheckoutPageLabelText, CheckoutPageLabel.Text.Trim());
+            Assert.AreEqual(expectedCheckoutPageLabelText, CheckoutPageHeader.Text.Trim());
         }
 
         public void AssertBillingInformationPrefilledOnCheckout(string expectedPrefilledFirstName, string expectedPrefilledLastName, string expectedPrefilledCompanyName, string expectedPrefilledEmail)
@@ -17,9 +19,11 @@ namespace OnlineRocketShop.Pages.CheckoutPage
             Assert.AreEqual(expectedPrefilledEmail, BillingEmailAddressTextBox.GetAttribute("Value"));
         }
 
-        public void AssertQuantityIncreasedInCheckoutPageByNumber(int expectedQuantityNumber)
+        public void AssertQuantityUpdatedByNumber(int expectedQuantityNumber)
         {
-            Assert.AreEqual(expectedQuantityNumber, GetCheckoutPageQuantityLabelTextParsedToInteger());
+            var actualQuantityNumber = Int32.Parse(Regex.Replace(ProductQuantityLabel.Text, @"[^\d]+", "").Trim());
+
+            Assert.AreEqual(expectedQuantityNumber, actualQuantityNumber);
         }
     }
 }

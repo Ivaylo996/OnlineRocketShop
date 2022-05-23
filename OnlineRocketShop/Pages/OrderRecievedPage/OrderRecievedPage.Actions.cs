@@ -4,29 +4,17 @@ namespace OnlineRocketShop.Pages.OrderRecievedPage
 {
     public partial class OrderRecievedPage : WebPage
     {
-        private string currentSubUrl = "checkout/order-received/";
-
-        public OrderRecievedPage(IWebDriver _driver) : base(_driver)
+        public OrderRecievedPage(IWebDriver _driver) 
+            : base(_driver)
         {
         }
 
-        protected override string Url
-        {
-            get
-            {
-                return base.Url + currentSubUrl;
-            }
-        }
+        protected override string Url => base.Url + "checkout/order-received/";
 
         public void GoToMyAccountPage()
         {
-            OrderRecievedPageMyAccountButton.Click();
+            MyAccountButton.Click();
             WaitForAjax();
-        }
-
-        public string GetOrderNumberByOrderRecievedPageOrderLabel()
-        {
-            return OrderRecievedPageOrderLabel.Text.Trim();
         }
     }
 }

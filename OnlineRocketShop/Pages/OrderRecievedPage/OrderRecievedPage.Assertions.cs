@@ -6,7 +6,7 @@ namespace OnlineRocketShop.Pages.OrderRecievedPage
     {
         public void AssertOrderRecieved(string expectedEmail)
         {
-            Assert.AreEqual(expectedEmail, OrderRecievedPageEmailLabel.Text.Trim());
+            Assert.AreEqual(expectedEmail, EmailLabel.Text);
         }
     }
 }

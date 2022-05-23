@@ -4,7 +4,8 @@ namespace OnlineRocketShop.Pages.MainPage
 {
     public partial class MainPage : WebPage
     {
-        public MainPage(IWebDriver _driver) : base(_driver)
+        public MainPage(IWebDriver _driver) 
+            : base(_driver)
         {
         }
 
@@ -18,7 +19,6 @@ namespace OnlineRocketShop.Pages.MainPage
         {
             GetAddToCartButtonByRocketName(rocketName).Click();
             WaitForElementToBeClickable(GetViewCartButtonByRocketName(rocketName));
-
             WaitForAjax();
             GetViewCartButtonByRocketName(rocketName).Click();
         }

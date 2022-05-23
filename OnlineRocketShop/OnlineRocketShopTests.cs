@@ -15,7 +15,7 @@ using WebDriverManager.Helpers;
 
 namespace OnlineRocketShop
 {
-    public class OnlineRocketShopTests : IDisposable
+    public class OnlineRocketShopTests
     {
         private static EventFiringWebDriver _driver;
         private static MainPage _mainPage;
@@ -51,18 +51,19 @@ namespace OnlineRocketShop
             _driver.Manage().Window.Maximize();
         }
 
+
         [TearDown]
         public void TestCleanup()
         {
             WebDriverEventHandler.PerformanceTimingService.GenerateReport();
+            _driver.Close();
         }
 
         [Test]
-        [TestCase("proton-rocket")]
-        public void NewAccountCreated_When_OrderPlacedByNewUser(string rocketName)
+        public void NewAccountCreated_When_OrderPlacedByNewUser()
         {
-            _mainPage.AddItemToCartWithoutAccount(rocketName);
-            _cartPage.ProceedToCheckoutFromCartPage();
+            _mainPage.AddItemToCartWithoutAccount("proton-rocket");
+            _cartPage.ProceedToCheckout();
             _checkoutPage.AssertCheckOutLabelDisplayed("Checkout");
             _checkoutPage.FillingBillingDetails(new BillingInfo
             {
@@ -75,32 +76,30 @@ namespace OnlineRocketShop
                 CityName = "Sofia",
                 ZipCode = "213123",
                 PhoneNumber = "088888888",
-                Email = "ivaylo4201o.dimg@gmail.com"
+                Email = "ivaylo42111o.dimg@gmail.com"
             });
             _checkoutPage.PlaceOrder();
 
-            _orderRecievedPage.AssertOrderRecieved("ivaylo4201o.dimg@gmail.com");
+            _orderRecievedPage.AssertOrderRecieved("ivaylo42111o.dimg@gmail.com");
         }
 
         [Test]
-        [TestCase("ivaylo.dimg@gmail.com", "Qwerty12345678987654321!", "proton-rocket", "Ivaylo", "Dimitrov", "ATP")]
-        public void BillingInfoPrefilled_When_ProceedingToCheckoutWithExistingAccount(string userEmail, string password, string rocketName, string userFirstName, string userLastName, string userCompany)
+        public void BillingInfoPrefilled_When_ProceedingToCheckoutWithExistingAccount()
         {
-            _myAccountPage.LoginWithExistingUsernameAndPassword(userEmail, password);
-            _myAccountPage.GoToHomePageFromMyAccountPage();
-            _mainPage.AddRocketToCart(rocketName);
-            _cartPage.ProceedToCheckoutFromCartPage();
+            _myAccountPage.LoginWithExistingUsernameAndPassword("ivaylo.dimg@gmail.com", "Qwerty12345678987654321!");
+            _myAccountPage.GoToHomePage();
+            _mainPage.AddRocketToCart("proton-rocket");
+            _cartPage.ProceedToCheckout();
 
             _checkoutPage.AssertCheckOutLabelDisplayed("Checkout");
-            _checkoutPage.AssertBillingInformationPrefilledOnCheckout(userFirstName, userLastName, userCompany, userEmail);
+            _checkoutPage.AssertBillingInformationPrefilledOnCheckout("Ivaylo", "Dimitrov", "ATP", "ivaylo.dimg@gmail.com");
         }
 
         [Test]
-        [TestCase("proton-rocket")]
-        public void OrdersShownInMyAccount_When_PurchasingItem_And_ComparingOrderNumber(string rocketName)
+        public void OrdersShownInMyAccount_When_PurchasingItem_And_ComparingOrderNumber()
         {
-            _mainPage.AddItemToCartWithoutAccount(rocketName);
-            _cartPage.ProceedToCheckoutFromCartPage();
+            _mainPage.AddItemToCartWithoutAccount("proton-rocket");
+            _cartPage.ProceedToCheckout();
             _checkoutPage.FillingBillingDetails(new BillingInfo
             {
                 FirstName = "Ivo",
@@ -118,7 +117,7 @@ namespace OnlineRocketShop
 
             _orderRecievedPage.AssertOrderRecieved("ivso1321231231231.dimg@gmail.com");
 
-            var expectedOrderLabelFromOrderRecievedPage = "#" + Int32.Parse(Regex.Replace(_orderRecievedPage.OrderRecievedPageOrderLabel.Text, @"[^\d]+", "").Trim());
+            var expectedOrderLabelFromOrderRecievedPage = "#" + Int32.Parse(Regex.Replace(_orderRecievedPage.OrderLabel.Text, @"[^\d]+", "").Trim());
             _orderRecievedPage.GoToMyAccountPage();
             _myAccountPage.CheckOrdersInMyAccount();
             
@@ -126,25 +125,23 @@ namespace OnlineRocketShop
         }
 
         [Test]
-        [TestCase("falcon-9", "happybirthday")]
-        public void CouponApplied_When_ApplyingHappyBirthdayCoupon(string rocketName, string couponName)
+        public void CouponApplied_When_ApplyingHappyBirthdayCoupon()
         {
-            _mainPage.AddItemToCartWithoutAccount(rocketName);
-            _cartPage.ApplyCouponByCouponName(couponName);
+            _mainPage.AddItemToCartWithoutAccount("falcon-9");
+            _cartPage.ApplyCouponByCouponName("happybirthday");
 
             _cartPage.AssertCouponApplied("Coupon code applied successfully.");
         }
 
         [Test]
-        [TestCase("falcon-9")]
-        public void QuantityIncreasedToThree_When_AddingItemToCart_And_IncreasingQuantity(string rocketName)
+        public void QuantityIncreasedToThree_When_AddingItemToCart_And_IncreasingQuantity()
         {
-            _mainPage.AddItemToCartWithoutAccount(rocketName);
+            _mainPage.AddItemToCartWithoutAccount("falcon-9");
             _cartPage.IncreaseProductQuantityInCartByNumber(3);
 
-            _cartPage.AssertQuantityIncreasedInCartPage("3 items");
+            _cartPage.AssertQuantityIncreased("3 items");
 
-            _cartPage.ProceedToCheckoutFromCartPage();
+            _cartPage.ProceedToCheckout();
             _checkoutPage.FillingBillingDetails(new BillingInfo
             {
                 FirstName = "Ivaylo",
@@ -159,16 +156,11 @@ namespace OnlineRocketShop
                 Email = "ivaylo.dimg@gmail.com"
             });
 
-            _checkoutPage.AssertQuantityIncreasedInCheckoutPageByNumber(3);
+            _checkoutPage.AssertQuantityUpdatedByNumber(3);
 
             _checkoutPage.PlaceOrder();
 
-            _myOrdersPage.AssertQuantityIncreasedInOrdersPageByNumber(3);
-        }
-
-        public void Dispose()
-        {
-            _driver.Quit();
+            _myOrdersPage.AssertQuantityUpdatedByNumber(3);
         }
     }
 }

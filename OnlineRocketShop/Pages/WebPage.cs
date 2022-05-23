@@ -10,7 +10,6 @@ namespace OnlineRocketShop.Pages
     public abstract class WebPage
     {
         private const int WAIT_FOR_ELEMENT_TIMEOUT = 60;
-        private string url = "http://demos.bellatrix.solutions/";
 
         public WebPage(IWebDriver _driver)
         {
@@ -20,17 +19,7 @@ namespace OnlineRocketShop.Pages
 
         public IWebDriver Driver { get; set; }
         public WebDriverWait WebDriverWait { get; set; }
-        protected virtual string Url
-        {
-            get
-            {
-                return url;
-            }
-            set
-            {
-                url = value;
-            }
-        }
+        protected virtual string Url => "http://demos.bellatrix.solutions/";
         public string OrderNumberLabel { get; set; }
 
         public void GoTo()
@@ -71,9 +60,7 @@ namespace OnlineRocketShop.Pages
 
         public void WaitForAjax()
         {
-            var js = (IJavaScriptExecutor)Driver;
-
-            WebDriverWait.Until(wd => js.ExecuteScript("return jQuery.active").ToString() == "0");
+            WebDriverWait.Until(wd => ((IJavaScriptExecutor)Driver).ExecuteScript("return jQuery.active").ToString() == "0");
         }
     }
 }
